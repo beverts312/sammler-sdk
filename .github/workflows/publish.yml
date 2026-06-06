@@ -1,0 +1,77 @@
+name: Publish Packages
+
+on:
+  release:
+    types: [published, created]
+
+jobs:
+  publish-npm:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: |
+          cd typescript
+          npm ci
+
+      - name: Run codegen
+        run: |
+          cd typescript
+          npm run codegen
+
+      - name: Build package
+        run: |
+          cd typescript
+          npm run build
+
+      - name: Publish to NPM
+        run: |
+          cd typescript
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-pip:
+    name: Publish to PyPI (pip)
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install build tools & generator
+        run: |
+          python -m pip install --upgrade pip
+          pip install "ariadne-codegen[http]" pydantic httpx build
+
+      - name: Run codegen
+        run: |
+          cd python
+          ariadne-codegen
+
+      - name: Build package
+        run: |
+          cd python
+          python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python/dist
+          # If using API token instead of OIDC trusted publishing, uncomment the password line below:
+          # password: ${{ secrets.PYPI_API_TOKEN }}

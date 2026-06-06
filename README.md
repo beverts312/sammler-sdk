@@ -1,10 +1,9 @@
 # Sammler SDKs
 
-This repository contains the official client SDKs for interacting with the Sammler GraphQL API, available in both **TypeScript/JavaScript** and **Python**.
+[sammler.io](https://sammler.io/) is an application for cataloging and tracking personal collections.
 
-Both clients are generated from a shared schema and operations file to guarantee API parity and consistency.
+Users with developer access can use the sdk's provided from this repo to interact with the sammler programatically.
 
----
 
 ## Directory Structure
 
