@@ -52,6 +52,7 @@ export type Query = {
   collections: Array<Collection>;
   item?: Maybe<CollectionItem>;
   items: Array<CollectionItem>;
+  me?: Maybe<User>;
 };
 
 
@@ -62,6 +63,17 @@ export type QueryCollectionArgs = {
 
 export type QueryItemArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  createdAt: Scalars['String']['output'];
+  displayName: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  photoURL: Scalars['String']['output'];
+  tier: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GetCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -87,6 +99,11 @@ export type GetItemQueryVariables = Exact<{
 
 
 export type GetItemQuery = { __typename?: 'Query', item?: { __typename?: 'CollectionItem', id: string, userId: string, collectionId: string, name: string, description?: string | null, quantity: number, value?: number | null, condition?: string | null, notes?: string | null, createdAt: string, updatedAt: string, photoRef?: string | null, collection: { __typename?: 'Collection', id: string, name: string, type: string } } | null };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, displayName: string, photoURL: string, email: string, createdAt: string, tier: string } | null };
 
 
 export const GetCollectionsDocument = gql`
@@ -169,6 +186,19 @@ export const GetItemDocument = gql`
   }
 }
     `;
+export const GetCurrentUserDocument = gql`
+    query GetCurrentUser {
+  me {
+    id
+    username
+    displayName
+    photoURL
+    email
+    createdAt
+    tier
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -188,6 +218,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     GetItem(variables: GetItemQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<GetItemQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetItemQuery>({ document: GetItemDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'GetItem', 'query', variables);
+    },
+    GetCurrentUser(variables?: GetCurrentUserQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<GetCurrentUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCurrentUserQuery>({ document: GetCurrentUserDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'GetCurrentUser', 'query', variables);
     }
   };
 }

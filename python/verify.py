@@ -5,6 +5,7 @@ from sammler import (
     GetCollectionCollection,
     GetItemsItems,
     GetItemItem,
+    GetCurrentUserMe,
 )
 
 async def test_client():
@@ -19,6 +20,7 @@ async def test_client():
     assert hasattr(client, 'get_collection'), "Missing get_collection"
     assert hasattr(client, 'get_items'), "Missing get_items"
     assert hasattr(client, 'get_item'), "Missing get_item"
+    assert hasattr(client, 'get_current_user'), "Missing get_current_user"
     print("All client methods verified!")
     
     # Verify that the class models are correct

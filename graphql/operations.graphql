@@ -73,3 +73,16 @@ query GetItem($id: ID!) {
     }
   }
 }
+
+query GetCurrentUser {
+  me {
+    id
+    username
+    displayName
+    photoURL
+    email
+    createdAt
+    tier
+  }
+}
+

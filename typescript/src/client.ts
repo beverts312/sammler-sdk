@@ -69,6 +69,15 @@ export class SammlerClient {
   }
 
   /**
+   * Retrieve the authenticated user's profile details.
+   */
+  async getCurrentUser() {
+    const response = await this.sdk.GetCurrentUser();
+    return response.me || null;
+  }
+
+
+  /**
    * Exposes the raw underlying generated SDK client methods.
    */
   get rawSdk(): Sdk {

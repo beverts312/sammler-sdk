@@ -5,6 +5,7 @@ from .graphql.get_collections import GetCollectionsCollections
 from .graphql.get_collection import GetCollectionCollection
 from .graphql.get_items import GetItemsItems
 from .graphql.get_item import GetItemItem
+from .graphql.get_current_user import GetCurrentUserMe
 
 class SammlerClient:
     def __init__(
@@ -49,6 +50,12 @@ class SammlerClient:
         """Retrieve a single collection item by its ID, including its associated collection."""
         response = await self.client.get_item(id=id)
         return response.item
+
+    async def get_current_user(self) -> Optional[GetCurrentUserMe]:
+        """Retrieve the authenticated user's profile details."""
+        response = await self.client.get_current_user()
+        return response.me
+
 
     @property
     def raw_client(self) -> Client:

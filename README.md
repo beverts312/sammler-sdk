@@ -4,6 +4,10 @@
 
 Users with developer access can use the sdk's provided from this repo to interact with the sammler programatically.
 
+* [typescript usage](./typescript/README.md)
+* [python usage](./python/README.md)
+* [examples](./examples/)
+
 
 ## Directory Structure
 
