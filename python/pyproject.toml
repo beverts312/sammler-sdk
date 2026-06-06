@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sammler-sdk"
+version = "1.0.0"
+description = "Python SDK for interacting with Sammler GraphQL API"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "httpx>=0.24.0",
+    "pydantic>=2.0"
+]
+
+[tool.ariadne-codegen]
+remote_schema_url = "https://sammler-api-3f60d.web.app"
+queries_path = "../graphql/operations.graphql"
+target_package_name = "graphql"
+target_package_path = "sammler"
+client_type = "async"

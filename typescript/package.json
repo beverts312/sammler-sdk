@@ -1,0 +1,31 @@
+{
+  "name": "sammler-sdk",
+  "version": "1.0.0",
+  "description": "TypeScript/JavaScript SDK for interacting with Sammler GraphQL API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.ts",
+    "build": "tsc"
+  },
+  "keywords": [
+    "sammler",
+    "sdk",
+    "graphql",
+    "client"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-graphql-request": "^6.2.0",
+    "@graphql-codegen/typescript-operations": "^4.2.0",
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+}

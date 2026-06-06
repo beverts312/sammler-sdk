@@ -1,0 +1,75 @@
+query GetCollections {
+  collections {
+    id
+    userId
+    name
+    description
+    type
+    createdAt
+    updatedAt
+  }
+}
+
+query GetCollection($id: ID!) {
+  collection(id: $id) {
+    id
+    userId
+    name
+    description
+    type
+    createdAt
+    updatedAt
+    items {
+      id
+      collectionId
+      name
+      description
+      quantity
+      value
+      condition
+      notes
+      createdAt
+      updatedAt
+      photoRef
+    }
+  }
+}
+
+query GetItems {
+  items {
+    id
+    userId
+    collectionId
+    name
+    description
+    quantity
+    value
+    condition
+    notes
+    createdAt
+    updatedAt
+    photoRef
+  }
+}
+
+query GetItem($id: ID!) {
+  item(id: $id) {
+    id
+    userId
+    collectionId
+    name
+    description
+    quantity
+    value
+    condition
+    notes
+    createdAt
+    updatedAt
+    photoRef
+    collection {
+      id
+      name
+      type
+    }
+  }
+}

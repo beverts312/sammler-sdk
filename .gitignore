@@ -1,0 +1,20 @@
+# TypeScript subproject build outputs and dependencies
+typescript/dist/
+typescript/node_modules/
+
+# Python virtualenv and packages
+python/.venv/
+python/sammler/graphql/
+python/dist/
+python/*.egg-info/
+
+# General OS and IDE noise
+.DS_Store
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.ruff_cache
+
+# Examples
+examples/typescript/node_modules/
