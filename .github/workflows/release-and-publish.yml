@@ -9,7 +9,7 @@ permissions:
   contents: write
   issues: write
   pull-requests: write
-  id-token: write # Required for PyPI OIDC Trusted Publishing
+  id-token: write
 
 jobs:
   release:
@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,6 +49,11 @@ jobs:
         with:
           node-version: lts/*
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Set package version
+        run: |
+          cd typescript
+          npm version ${{ needs.release.outputs.new_release_version }} --no-git-tag-version
 
       - name: Install dependencies
         run: |
@@ -85,6 +91,18 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set package version
+        run: |
+          cd python
+          python -c "
+          import re
+          with open('pyproject.toml', 'r') as f:
+              content = f.read()
+          content = re.sub(r'(?m)^version\s*=\s*\"[^\"]+\"', 'version = \"${{ needs.release.outputs.new_release_version }}\"', content)
+          with open('pyproject.toml', 'w') as f:
+              f.write(content)
+          "
+
       - name: Install build tools & generator
         run: |
           python -m pip install --upgrade pip
@@ -104,5 +122,3 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: python/dist
-          # If using API token instead of OIDC trusted publishing, uncomment the password line below:
-          # password: ${{ secrets.PYPI_API_TOKEN }}
