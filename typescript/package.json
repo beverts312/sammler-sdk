@@ -16,6 +16,11 @@
   ],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beverts312/sammler-sdk.git",
+    "directory": "typescript"
+  },
   "dependencies": {
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0"
